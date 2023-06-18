@@ -3,17 +3,21 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.ALL;
-
 @Entity
 @Table(name = "news")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class News {
 
     @Id
@@ -42,11 +46,11 @@ public class News {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users user;
+    private User _user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "news_tags",
             joinColumns = @JoinColumn(name = "news_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tags> tagsList = new ArrayList<>();
+    private final List<Tags> tagsList = new ArrayList<>();
 }

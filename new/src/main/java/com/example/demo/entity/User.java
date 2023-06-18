@@ -3,16 +3,22 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "_user")
 @Data
-public class Users {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
 
     @Id
     @Column(name = "id")
@@ -24,10 +30,15 @@ public class Users {
     @Column()
     private String name;
 
+    @NotNull(message = "Password cannot be null")
+    @NotEmpty(message = "Password cannot be empty")
+    @Column()
+    private String password;
+
     @NotNull(message = "Mail cannot be null")
     @NotEmpty(message = "Mail cannot be empty")
     @Column()
-    private String mail;
+    private String email;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -38,6 +49,6 @@ public class Users {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<News> newsList = new ArrayList<>();
+    @OneToMany(mappedBy = "_user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<News> newsList = new ArrayList<>();
 }
