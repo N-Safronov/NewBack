@@ -26,8 +26,6 @@ public class JwtService {
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
-    private  static final String SECRET_KEY = "305c300d06092a864886f70d0101010500034b00304802410094bb2a9ed5f81db987531403ec9cee9d7aabb494fda32f611e6cdbc3ff0b03eff805795ca9db08696372920f4eda51df8f882d91bacb11b0f384d6137aa876ef0203010001";
-
     public String extractUsername(String token){
         return extractClamp(token, Claims::getSubject);
     }
@@ -74,7 +72,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS512)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -92,7 +90,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

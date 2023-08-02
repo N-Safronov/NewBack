@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -32,11 +33,15 @@ public class User implements UserDetails {
     private Integer id;
 
     @Size(min = 4, max = 15)
-    @NotNull(message = "Name cannot be null")
-    @NotEmpty(message = "Name cannot be empty")
-    private String name;
+    @NotNull(message = "firstName cannot be null")
+    @NotEmpty(message = "firstName cannot be empty")
+    private String firstname;
 
-    @Size(min = 7, max = 25)
+    @Size(min = 4, max = 15)
+    @NotNull(message = "lastName cannot be null")
+    @NotEmpty(message = "lastName cannot be empty")
+    private String lastname;
+
     @NotNull(message = "Password cannot be null")
     @NotEmpty(message = "Password cannot be empty")
     private String password;
@@ -45,6 +50,11 @@ public class User implements UserDetails {
     @NotNull(message = "Mail cannot be null")
     @NotEmpty(message = "Mail cannot be empty")
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role cannot be null")
+    @NotEmpty(message = "Role cannot be empty")
+    private Role role;
 
     @URL
     @Column(name = "image_url")
@@ -61,7 +71,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

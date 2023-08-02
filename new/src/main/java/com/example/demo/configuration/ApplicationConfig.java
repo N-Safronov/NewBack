@@ -1,4 +1,4 @@
-package com.example.demo.сonfiguration;
+package com.example.demo.configuration;
 
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

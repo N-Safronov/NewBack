@@ -1,8 +1,11 @@
-package com.example.demo.auth;
+package com.example.demo.service;
 
+import com.example.demo.dto.request.AuthenticationRequest;
+import com.example.demo.dto.response.AuthenticationResponse;
+import com.example.demo.dto.request.RegisterRequest;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +27,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)///Создать роли для user
+                .role(Role.USER)
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
