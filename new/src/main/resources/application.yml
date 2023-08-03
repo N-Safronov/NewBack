@@ -17,7 +17,6 @@ spring:
 upload:
   path: src/main/resources/upload/
 
-
 application:
   security:
     jwt:
