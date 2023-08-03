@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/v1/file")
 public class ImageController {
 
+    @Autowired
     private final ImageService imageService;
 
     @Autowired
