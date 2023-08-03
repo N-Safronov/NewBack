@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthUserDto{
+
+    private String avatar;
+    private String email;
+    private String id;
+    private String name;
+    private String role;
 
     @JsonProperty("access_token")
-    private String accessToken;
+    private String token;
+
 }
+

@@ -1,6 +1,6 @@
 package com.example.demo.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-
-    @JsonProperty("access_token")
-    private String accessToken;
+public class CustomSuccessResponse<T> {
+    private T data;
+    private int statusCode;
+    private boolean success;
 }

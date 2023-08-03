@@ -7,26 +7,23 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.nio.file.attribute.FileAttribute;
 import java.util.UUID;
 
 @Service
 public class ImageStorageService {
 
-    @Value("${upload.path}") // Путь к папке, где будут храниться загруженные картинки
+    @Value("${upload.path}")
     private String uploadPath;
 
     public String storeImage(MultipartFile file) {
         String fileName = generateFileName(file);
         try {
             Path filePath = Paths.get(uploadPath, fileName);
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.write(filePath, file.getBytes(), StandardOpenOption.WRITE, StandardOpenOption.CREATE);
             return generateImageUrl(fileName);
         } catch (IOException e) {
-            // Обработайте ошибку сохранения файла
             throw new ImageStorageException("Failed to store image: " + fileName, e);
         }
     }
@@ -39,6 +36,11 @@ public class ImageStorageService {
     }
 
     private String generateImageUrl(String fileName) {
-        return "/images/" + fileName; // Формируйте URL в соответствии с вашей конфигурацией сервера
+        return "http://localhost:8080/v1/file/" + fileName; // Формируйте URL в соответствии с вашей конфигурацией сервера
+    }
+
+
+    public String getFilePath(String filename) {
+        return Paths.get(uploadPath, filename).toString();
     }
 }
