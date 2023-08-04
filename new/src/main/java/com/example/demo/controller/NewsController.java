@@ -39,6 +39,18 @@ public class NewsController {
         );
     }
 
+    @GetMapping
+    public ResponseEntity<CustomSuccessResponse<CustomDataResponse<List<GetNewsOutDtoResponse>>>> getPaginatedByUser(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int perPage,
+            @RequestParam Long userId){
+
+        return new ResponseEntity<>(
+                newService.findAllPageByUser(userId, PageRequest.of(page, perPage)),
+                HttpStatus.OK
+        );
+    }
+
     @PostMapping
     public ResponseEntity<CustomSuccessResponse> createNews(@Valid @RequestBody News news) {
         return new ResponseEntity<>(newService.save(news), HttpStatus.CREATED);

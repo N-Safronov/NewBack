@@ -34,6 +34,15 @@ public class NewService {
         return new CustomSuccessResponse(data, HttpStatus.OK.value(), true);
     }
 
+    public CustomSuccessResponse<CustomDataResponse<List<GetNewsOutDtoResponse>>> findAllPageByUser(Long userId, Pageable pageable) {
+        Page<News> savedToDo = newRepository.findByUserId(userId, pageable);
+        List<GetNewsOutDtoResponse> content = convertToDoToTaskData(savedToDo.getContent());
+
+        CustomDataResponse data = new CustomDataResponse(content, content.size());
+
+        return new CustomSuccessResponse(data, HttpStatus.OK.value(), true);
+    }
+
     public News findById(Integer id) {
         return newRepository.findById(id).orElse(null);
     }
